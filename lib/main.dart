@@ -55,7 +55,6 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contactBook = ContactBook();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
@@ -68,8 +67,18 @@ class Homepage extends StatelessWidget {
             itemCount: contacts.length,
             itemBuilder: (context, index) {
               final contact = contacts[index];
-              return ListTile(
-                title: Text(contact.name),
+              return Dismissible(
+                onDismissed: (direction) {
+                  ContactBook().remove(contact: contact);
+                },
+                key: ValueKey(contact.id),
+                child: Material(
+                  color: Colors.white,
+                  elevation: 6,
+                  child: ListTile(
+                    title: Text(contact.name),
+                  ),
+                ),
               );
             },
           );
